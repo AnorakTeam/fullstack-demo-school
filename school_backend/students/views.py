@@ -2,6 +2,7 @@ from rest_framework import viewsets, filters
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import Student, StudentGroup
 from .serializers import StudentSerializer, StudentGroupSerializer
+from .pagination import StudentPageNumberPagination
 
 
 class StudentGroupViewSet(viewsets.ModelViewSet):
@@ -29,6 +30,8 @@ class StudentViewSet(viewsets.ModelViewSet):
     """
     queryset = Student.objects.select_related('group').all()
     serializer_class = StudentSerializer
+    pagination_class = StudentPageNumberPagination
+
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_fields = ['code', 'email', 'group']
     search_fields = ['full_name', 'code', 'email']
